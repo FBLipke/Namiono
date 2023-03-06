@@ -13,7 +13,7 @@ namespace Namiono.Loader
 	{
 		private static void Main(string[] args)
 		{
-			using (NamionoCommon namionoCommon = new NamionoCommon())
+			using (var namionoCommon = new NamionoCommon())
 			{
 				namionoCommon.Bootstrap();
 				namionoCommon.Install();

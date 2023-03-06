@@ -67,7 +67,7 @@ namespace Namiono.Module
 		{
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("<ul>");
-			for (int index = 16; index <= 22; ++index)
+			for (var index = 16; index <= 22; ++index)
 			{
 				var hour = day.AddHours(index);
 				stringBuilder.Append("<li class=\"sendeplan_entry\">");
@@ -90,7 +90,7 @@ namespace Namiono.Module
 		private string Generate_WeekPlan(int startDay, int endDay = 7)
 		{
 			var stringBuilder = new StringBuilder();
-			for (int index = startDay; index < endDay; ++index)
+			for (var index = startDay; index < endDay; ++index)
 			{
 				var day = FirstDayOfWeek().AddDays(index);
 				stringBuilder.Append("<div class=\"sendeplan_day\">");

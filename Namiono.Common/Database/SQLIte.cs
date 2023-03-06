@@ -21,18 +21,20 @@ namespace Namiono.Common.Database
 		{
 			if (string.IsNullOrEmpty(database))
 				return;
+
 			_sqlConn = new SQLiteConnection(string.Format("Data Source={0};Version=3;", Path.Combine(fs.Root, database)));
 			_sqlConn.Open();
 		}
 
 		public int Count<TS>(string table, string condition, TS value)
 		{
-			int num = 0;
+			var num = 0;
 			using (var sqLiteCommand = new SQLiteCommand(string.Format("SELECT Count({0}) FROM {1} WHERE {2}=\"{3}\"", condition, table, condition, value), _sqlConn))
 			{
 				sqLiteCommand.CommandType = CommandType.Text;
 				num = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
 			}
+
 			return num;
 		}
 
@@ -46,7 +48,7 @@ namespace Namiono.Common.Database
 				{
 					using (var sqLiteDataReader = cmd.ExecuteReader())
 					{
-						int key = 0;
+						var key = 0;
 						while (sqLiteDataReader.Read())
 						{
 							if (!dictionary.ContainsKey(key))
@@ -64,15 +66,16 @@ namespace Namiono.Common.Database
 
 		public bool SqlInsert(string sql)
 		{
-			bool result = false;
+			var result = false;
 			using (var cmd = new SQLiteCommand(sql))
 				Nonqry(cmd, out result);
+			
 			return result;
 		}
 
 		public string SqlQuery(string sql, string key)
 		{
-			string str = string.Empty;
+			var str = string.Empty;
 			using (var cmd = new SQLiteCommand(sql, _sqlConn))
 			{
 				Nonqry(cmd, out bool result);
@@ -81,6 +84,7 @@ namespace Namiono.Common.Database
 				{
 					while (sqLiteDataReader.Read())
 						str = string.Format("{0}", sqLiteDataReader[key]);
+				
 					sqLiteDataReader.Close();
 				}
 			}

@@ -29,10 +29,7 @@ namespace Namiono.Common.Network
 			FileSystem = new FileSystem("WebSite");
 			RequestHandled += (sender, e) =>
 		   {
-			   WebSiteManagerRequestHandledEventHandler managerRequestHandled = WebSiteManagerRequestHandled;
-			   if (managerRequestHandled == null)
-				   return;
-			   managerRequestHandled(this, e);
+			   WebSiteManagerRequestHandled(this, e);
 		   };
 		}
 
@@ -80,9 +77,10 @@ namespace Namiono.Common.Network
 
 		private string Handle_Provider_Request(HttpRequest request)
 		{
-			string[] strArray = request.Path.Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-			string key = string.Empty;
-			string str = string.Empty;
+			var strArray = request.Path.Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+			var key = string.Empty;
+			var str = string.Empty;
+			
 			if (strArray.Length > 1)
 			{
 				key = strArray[1].Captitalize();
@@ -97,8 +95,10 @@ namespace Namiono.Common.Network
 			}
 			if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(str))
 				return string.Empty;
+			
 			if (!NamionoCommon.Providers.ContainsKey(key))
 				return "<p class=\"error_text\">Der angegebene Provider ist nicht verfügbar</p>";
+			
 			return Provider.Provider.InvokeMethod<string>(NamionoCommon.Providers[key], "Handle_" + str + "_Request", new object[1]
 			{
 		 request
@@ -163,8 +163,6 @@ namespace Namiono.Common.Network
 
 			RequestHandled.DynamicInvoke(this,
 				new WebSiteManagerRequestHandledEventArgs(server, socket, client, response));
-
-			Console.WriteLine(response.ToString());
 		}
 
 		private string Handle_Site_Request(bool loggedin, string path, HttpRequest request)

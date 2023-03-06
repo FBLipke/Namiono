@@ -62,7 +62,7 @@ namespace Namiono.Common.Network
 								{
 									using (var streamReader2 = new StreamReader(memoryStream))
 									{
-										string str3 = streamReader2.ReadLine().As_UTF8_String();
+										var str3 = streamReader2.ReadLine().As_UTF8_String();
 										ParseParameters(ref req, str3);
 										streamReader2.Close();
 									}
@@ -73,7 +73,8 @@ namespace Namiono.Common.Network
 					else
 						break;
 				}
-				HTTP.HttpCookie httpCookie = req.Cookies.Where(c => c.Name == "UserId").FirstOrDefault();
+				
+				var httpCookie = req.Cookies.Where(c => c.Name == "UserId").FirstOrDefault();
 				if (httpCookie != null && NamionoCommon.Providers.ContainsKey("User") && !string.IsNullOrEmpty(httpCookie.Value))
 				{
 					req.User = NamionoCommon.Providers["User"].Request(Guid.Parse(httpCookie.Value));
@@ -88,17 +89,18 @@ namespace Namiono.Common.Network
 		{
 			if (param == null || !param.Contains("?") && !param.Contains("&"))
 				return;
-			string str1 = param;
-			char[] chArray = new char[1] { '&' };
-			foreach (string str2 in str1.Split(chArray))
+			var str1 = param;
+			var chArray = new char[1] { '&' };
+			foreach (var str2 in str1.Split(chArray))
 			{
 				if (str2.Contains("="))
 				{
-					string[] strArray = str2.Split('=');
+					var strArray = str2.Split('=');
 					if (!req.Parameters.ContainsKey(strArray[0]))
 					{
 						if (strArray[0] == "_")
 							strArray[0] = "Timestamp";
+
 						if (!string.IsNullOrEmpty(strArray[1]) && !string.IsNullOrWhiteSpace(strArray[1]))
 							req.Parameters.Add(strArray[0], HttpUtility.UrlDecode(strArray[1]));
 					}

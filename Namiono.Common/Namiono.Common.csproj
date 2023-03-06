@@ -98,10 +98,9 @@
   <ItemGroup>
     <Compile Include="Network\Events\NetworkManagerRequestHandledEventArgs.cs" />
     <Compile Include="Network\Events\ReceivedDataArgs.HttpContext.cs" />
-    <Compile Include="Network\HTTPRequestReceivedEventHandler.cs" />
+    <Compile Include="Network\Events\HTTPRequestReceivedEventArgs.cs" />
     <Compile Include="Network\HTTP\HTTPContext.cs" />
-    <Compile Include="Network\NetworkManagerRequestHandledEventHandler.cs" />
-    <Compile Include="Network\Sockets\DataReadFromClientEventArgs.cs" />
+    <Compile Include="Network\Events\DataReadFromClientEventArgs.cs" />
     <Compile Include="Network\Sockets\Interfaces\INamionoClient.cs" />
     <Compile Include="Network\Sockets\Interfaces\INamionoServer.cs" />
     <Compile Include="Network\Sockets\Interfaces\INamionoSocket.cs" />
@@ -221,9 +220,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

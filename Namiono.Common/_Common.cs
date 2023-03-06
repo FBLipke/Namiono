@@ -62,7 +62,7 @@ namespace Namiono.Common
 			Task.Run(() =>
 			{
 				foreach (var file in new DirectoryInfo(Filesystem.Root)
-					.GetFiles("Namiono.Module.*.dll", SearchOption.TopDirectoryOnly))
+					.GetFiles("*.Module.*.dll", SearchOption.TopDirectoryOnly))
 					Provider.Provider.LoadModule(file.Name.Substring(0, file.Name.LastIndexOf('.')));
 			});
 			NetworkManager = new NetworkManager();

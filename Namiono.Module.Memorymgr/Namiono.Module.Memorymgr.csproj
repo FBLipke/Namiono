@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Namiono.Common">
-      <HintPath>..\Namiono.Common\bin\Debug\Namiono.Common.dll</HintPath>
+      <HintPath>..\Namiono.Loader\bin\x64\Debug\Namiono.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

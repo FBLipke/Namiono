@@ -26,15 +26,13 @@ namespace Namiono.Common.Provider
 		public static void LoadModule(string name)
 		{
 			var path = Path.Combine(Environment.CurrentDirectory, name + ".dll");
+
 			if (!File.Exists(path))
 				return;
+
 			var instance = (IProvider)Activator.CreateInstance(Assembly.LoadFile(path).GetType(name));
 
-			var moduleLoaded = ModuleLoaded;
-			if (moduleLoaded == null)
-				return;
-
-			moduleLoaded.DynamicInvoke(null, new ModuleLoadedEventArgs(name, instance));
+			ModuleLoaded.DynamicInvoke(null, new ModuleLoadedEventArgs(name, instance));
 		}
 
 		public static bool HasProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
@@ -47,6 +45,7 @@ namespace Namiono.Common.Provider
 		{
 			if (member == null)
 				throw new NullReferenceException();
+
 			return (TY)Convert.ChangeType(((IEnumerable<PropertyInfo>)member.GetType().GetProperties()).Single(pi => pi.Name == propertyName).GetValue(member, null), typeof(TY));
 		}
 
@@ -59,12 +58,14 @@ namespace Namiono.Common.Provider
 		{
 			if (value == null)
 				throw new ArgumentNullException(nameof(value));
+
 			var propertyInfo = ((IEnumerable<PropertyInfo>)obj.GetType().GetProperties()).Single(pi => pi.Name == name) ?? throw new ArgumentNullException();
+
 			if (typeof(TS) == typeof(string))
 			{
 				if (!append)
 				{
-					MethodInfo runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
+					var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
 					{
 			typeof (string)
 					});
@@ -73,7 +74,8 @@ namespace Namiono.Common.Provider
 						var str = string.Format("{0}", value);
 						if (propertyInfo.PropertyType == typeof(bool))
 							str = str != "0" ? "true" : "false";
-						object obj1 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
+
+						var obj1 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
 						{
 			   str
 						});
@@ -90,7 +92,7 @@ namespace Namiono.Common.Provider
 			}
 			else
 			{
-				MethodInfo runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
+				var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
 				{
 		  typeof (string)
 				});
@@ -99,7 +101,7 @@ namespace Namiono.Common.Provider
 					var str = string.Format("{0}", value);
 					if (propertyInfo.PropertyType == typeof(bool))
 						str = str != "0" ? "true" : "false";
-					object obj2 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
+					var obj2 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
 					{
 			 str
 					});
@@ -123,10 +125,10 @@ namespace Namiono.Common.Provider
 			var propertyInfos = typeof(IMember).GetProperties().Where(p => p.GetGetMethod().IsPublic)
 				.Where(p => p.PropertyType.FullName != null && p.PropertyType.FullName.StartsWith("System")).Where(p => !p.PropertyType.FullName.Contains("Collections"));
 			var dictionary2 = db.SqlQuery(string.Format("SELECT {0} FROM {1}", "*", name));
-			for (int key = 0; key < dictionary2.Count; ++key)
+			for (var key = 0; key < dictionary2.Count; ++key)
 			{
 				var member = new Member();
-				foreach (PropertyInfo propertyInfo in propertyInfos)
+				foreach (var propertyInfo in propertyInfos)
 				{
 					SetPropertyValue(member, propertyInfo.Name, dictionary2[key][propertyInfo.Name]);
 					if (propertyInfo.Name == "ExtraData" && string.IsNullOrEmpty(dictionary2[key]["ExtraData"]))
@@ -150,6 +152,7 @@ namespace Namiono.Common.Provider
 		{
 			if (obj == null)
 				return;
+
 			var eventInfo = obj.GetType().GetEvent(name);
 			var eventHandlerType = eventInfo.EventHandlerType;
 			var firstArgument = obj;
@@ -179,71 +182,71 @@ namespace Namiono.Common.Provider
 						streamWriter.NewLine = Environment.NewLine;
 						streamWriter.AutoFlush = true;
 						var num = 1;
-						var stringBuilder1 = new StringBuilder("VALUES (");
+						var output = new StringBuilder("VALUES (");
 						var str1 = string.Format("INSERT INTO " + name + " (");
 						foreach (var propertyInfo in propertyInfos)
 						{
 							var strArray = propertyInfo.PropertyType.ToString().Split('.');
-							var str2 = strArray[strArray.Length - 1];
+							var str2 = strArray[strArray.Length - 1].ToLower();
 							var stringBuilder2 = new StringBuilder();
-							if (str2.ToLower() == "guid")
+							if (str2 == "guid")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<Guid>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "ipaddress" || str2.ToLower() == "string")
+							else if (str2 == "ipaddress" || str2 == "string")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<string>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "double")
+							else if (str2 == "double")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<double>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "boolean")
+							else if (str2 == "boolean")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<bool>(member, propertyInfo.Name) ? 49 : 48);
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "uint64")
+							else if (str2 == "uint64")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<ulong>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "uint32")
+							else if (str2 == "uint32")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<uint>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "uint16")
+							else if (str2 == "uint16")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<ushort>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "int16")
+							else if (str2 == "int16")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<short>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							else if (str2.ToLower() == "int32")
+							else if (str2 == "int32")
 							{
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<int>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
 							else
 							{
-								if (!(str2.ToLower() == "int64"))
+								if (!(str2 == "int64"))
 									throw new Exception(string.Format("I dont know to use for {0}", propertyInfo.Name));
 
 								stringBuilder2.AppendFormat("'{0}',", GetPropertyValue<long>(member, propertyInfo.Name));
 								str1 = str1 + propertyInfo.Name + ",";
 							}
-							stringBuilder1.Append(stringBuilder2);
+							output.Append(stringBuilder2);
 							++num;
 						}
 						var str3 = str1.Substring(0, str1.LastIndexOf(",", StringComparison.Ordinal)) + ")";
-						var str4 = stringBuilder1.ToString();
+						var str4 = output.ToString();
 						if (str4.EndsWith(","))
 							str4 = str4.Substring(0, str4.LastIndexOf(",", StringComparison.Ordinal)) + ")";
 						streamWriter.WriteLine(str3);
@@ -298,33 +301,36 @@ namespace Namiono.Common.Provider
 					{
 						var propertyInfos = member.GetType().GetProperties().Where(p => p.GetGetMethod().IsPublic).Where(p => p.PropertyType.FullName != null &&
 						p.PropertyType.FullName.StartsWith("System")).Where(p => !p.PropertyType.FullName.Contains("Collections"));
+
 						using (var streamWriter = new StreamWriter(path, fs.Exists(path)))
 						{
 							streamWriter.NewLine = Environment.NewLine;
 							streamWriter.AutoFlush = true;
+
 							foreach (var propertyInfo in propertyInfos)
 							{
 								var strArray = propertyInfo.PropertyType.ToString().Split('.');
-								var str = strArray[strArray.Length - 1];
-								if (str.ToLower() == "guid")
+								var str = strArray[strArray.Length - 1].ToLower();
+
+								if (str == "guid")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<Guid>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "ipaddress" || str.ToLower() == "string")
+								else if (str == "ipaddress" || str == "string")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<string>(member, propertyInfo.Name).Trim(), id);
-								else if (str.ToLower() == "double")
+								else if (str == "double")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<double>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "boolean")
+								else if (str == "boolean")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<bool>(member, propertyInfo.Name) ? 49 : 48, id);
-								else if (str.ToLower() == "uint64")
+								else if (str == "uint64")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<ulong>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "uint32")
+								else if (str == "uint32")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<uint>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "uint16")
+								else if (str == "uint16")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<ushort>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "int16")
+								else if (str == "int16")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<short>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "int32")
+								else if (str == "int32")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<int>(member, propertyInfo.Name), id);
-								else if (str.ToLower() == "int64")
+								else if (str == "int64")
 									streamWriter.WriteLine("UPDATE {0} SET {1} = \"{2}\" WHERE Id = \"{3}\";", name, propertyInfo.Name, GetPropertyValue<long>(member, propertyInfo.Name), id);
 							}
 						}
@@ -340,6 +346,7 @@ namespace Namiono.Common.Provider
 					end = streamReader.ReadToEnd();
 					streamReader.Close();
 				}
+
 				if (db.SqlInsert(end))
 				{
 					File.Delete(path);
@@ -375,7 +382,11 @@ namespace Namiono.Common.Provider
 				{
 					for (var i = childNodes.Count - 1; i >= 0; --i)
 					{
+						if (childNodes[i].Name != "Entries")
+							continue;
+
 						var attributes = childNodes[i].Attributes;
+						
 						if (attributes != null)
 						{
 							var email = "me@you.de";
@@ -392,6 +403,7 @@ namespace Namiono.Common.Provider
 							var str3 = attributes["Description"].Value;
 							var password = attributes["Password"].Value;
 							var key = Guid.NewGuid();
+
 							var member = new Member()
 							{
 								Members = new Dictionary<Guid, IMember>(),
@@ -405,10 +417,12 @@ namespace Namiono.Common.Provider
 								Provider = str2,
 								Description = str3
 							};
+
 							members.Add(key, member);
 						}
 					}
 				}
+				
 				var path = Path.Combine(fs.Root, "database_create.sql");
 				using (var streamWriter = new StreamWriter(path))
 				{
@@ -416,13 +430,18 @@ namespace Namiono.Common.Provider
 					streamWriter.NewLine = Environment.NewLine;
 					streamWriter.AutoFlush = true;
 					streamWriter.WriteLine("\t'_id'\tINTEGER PRIMARY KEY AUTOINCREMENT,");
+					
 					var num = 1;
+					
 					var source1 = ((IEnumerable<PropertyInfo>)typeof(IMember).GetProperties()).Where((p => p.GetGetMethod().IsPublic)).Where
 						(p => p.PropertyType.FullName != null && p.PropertyType.FullName.StartsWith("System"))
 							.Where(p => !p.PropertyType.FullName.Contains("Collections"));
+					
 					if (!(source1 is PropertyInfo[] propertyInfoArray))
 						propertyInfoArray = source1.ToArray();
+					
 					var source2 = propertyInfoArray;
+
 					foreach (var propertyInfo in source2)
 					{
 						var strArray = propertyInfo.PropertyType.ToString().Split('.');
@@ -461,6 +480,7 @@ namespace Namiono.Common.Provider
 							break;
 						}
 					}
+					
 					streamWriter.WriteLine(")");
 					streamWriter.Close();
 				}
@@ -470,10 +490,13 @@ namespace Namiono.Common.Provider
 					end = streamReader.ReadToEnd();
 					streamReader.Close();
 				}
+
 				if (db.SqlInsert(end))
 					File.Delete(path);
+				
 				if (members.Any())
 					Insert(members, db, name, fs);
+				
 				using (var text = File.CreateText(Path.Combine(fs.Root, "installed.tag")))
 				{
 					text.WriteLine("Installed...");

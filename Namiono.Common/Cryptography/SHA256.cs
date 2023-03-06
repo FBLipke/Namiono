@@ -17,9 +17,9 @@ namespace Namiono.Common
 			if (string.IsNullOrEmpty(text))
 				return string.Empty;
 
-			byte[] buffer = new byte[0];
+			var buffer = new byte[0];
 
-			using (HMACSHA256 hmacshA256 = new HMACSHA256(Encoding.ASCII.GetBytes(key.ToCharArray())))
+			using (var hmacshA256 = new HMACSHA256(Encoding.ASCII.GetBytes(key.ToCharArray())))
 				buffer = hmacshA256.ComputeHash(buffer);
 
 			return BitConverter.ToString(buffer).Replace("-", string.Empty).ToLower();

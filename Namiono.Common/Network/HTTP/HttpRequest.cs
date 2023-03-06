@@ -20,10 +20,12 @@ namespace Namiono.Common.Network
 
 		public string Create()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendFormat("{0} {1} {2}\n\r", Method, Path, Version);
-			foreach (KeyValuePair<string, string> header in Headers)
+			
+			foreach (var header in Headers)
 				stringBuilder.AppendFormat("{0}:{1}\n\r", header.Key, header.Value);
+			
 			stringBuilder.Append("\n\r");
 			return stringBuilder.ToString();
 		}
@@ -66,24 +68,32 @@ namespace Namiono.Common.Network
 
 		public new string ToString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendFormat("Method: {0}{1}", Method, Environment.NewLine);
 			stringBuilder.AppendFormat("Path: {0}{1}", Path, Environment.NewLine);
 			stringBuilder.AppendFormat("Version: {0}{1}", Version, Environment.NewLine);
 			stringBuilder.AppendFormat("Headers:{0}", Environment.NewLine);
+			
 			if (Headers.Count == 0)
 				stringBuilder.AppendFormat("No headers in this Request... {0}", Environment.NewLine);
-			foreach (KeyValuePair<string, string> header in Headers)
+			
+			foreach (var header in Headers)
 				stringBuilder.AppendFormat("Name: {0}{1}Value: {2}{1}", header.Key, Environment.NewLine, header.Value);
+			
 			stringBuilder.AppendFormat("Cookies:{0}", Environment.NewLine);
+			
 			if (Cookies.Count == 0)
 				stringBuilder.AppendFormat("No cookies in this Request... {0}", Environment.NewLine);
-			foreach (HttpCookie cookie in Cookies)
+			
+			foreach (var cookie in Cookies)
 				stringBuilder.AppendFormat("Name: {0}{1}Value: {2}{1}", cookie.Name, Environment.NewLine, cookie.Value);
+			
 			if (Parameters.Count == 0)
 				stringBuilder.AppendFormat("No parameters in this Request... {0}", Environment.NewLine);
-			foreach (KeyValuePair<string, string> parameter in Parameters)
+			
+			foreach (var parameter in Parameters)
 				stringBuilder.AppendFormat("Name: {0}{1}Value: {2}{1}", parameter.Key, Environment.NewLine, parameter.Value);
+			
 			return stringBuilder.ToString();
 		}
 	}
