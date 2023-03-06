@@ -55,11 +55,12 @@ namespace Namiono.Module
 		{
 			if (VolativeModule)
 				return;
+
 			Database?.HeartBeat();
 			Update();
 		}
 
-		private void Update() => Provider.Commit(Members, nameof(User), Database, FileSystem);
+		private void Update() => Provider.Commit(Members, "User", Database, FileSystem);
 
 		public void Close()
 		{

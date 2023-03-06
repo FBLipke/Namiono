@@ -150,36 +150,12 @@ namespace Namiono.Common
 
 		public static void Log(string type, string name, string logmessage)
 		{
-			var str = "\t" + DateTime.Now.ToString("dd.MM.yyyy : HH:mm:ss", CultureInfo.InvariantCulture)
-				+ "\tNamiono." + name + ": " + logmessage;
-
-			if (Providers != null)
-			{
-				lock (Providers)
-				{
-					foreach (var provider in Provider.Provider.CanDo("Log"))
-						if (provider != null)
-						{
-							var key = Guid.NewGuid();
-							var num = DateTime.Now.AsUnixTimeStamp();
-
-							provider.Members.Add(key, new Member()
-							{
-								Name = name,
-								Id = key,
-								Description = str,
-								Author = Guid.Empty,
-								Created = num,
-								Updated = num,
-								Provider = provider.FriendlyName,
-								Url = "-"
-							});
-						}
-				}
-			}
-
-			Console.WriteLine(Provider.Provider.CanDo(nameof(Log)) == null
-				|| !Provider.Provider.CanDo(nameof(Log)).Any() ? logmessage : "[" + type + "]" + str);
+			if (!Provider.Provider.CanDo("Log").Any())
+				Console.WriteLine(logmessage);
+			else
+				Provider.Provider.InvokeMethod(Provider.Provider.CanDo("Log").First(), "Log",
+					new object[] { type, name, logmessage });
+				
 		}
 
 		public void Install()

@@ -12,6 +12,7 @@ using Namiono.Database;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Namiono.Module
 {
@@ -147,5 +148,28 @@ namespace Namiono.Module
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public void Log(string type, string name, string logmessage)
+        {
+			var str = "\t" + DateTime.Now.ToString("dd.MM.yyyy : HH:mm:ss", CultureInfo.InvariantCulture)
+				+ "\tNamiono." + name + ": " + logmessage;
+
+			var key = Guid.NewGuid();
+			var num = DateTime.Now.AsUnixTimeStamp();
+
+			Members.Add(key, new Member()
+			{
+				Name = name,
+				Id = key,
+				Description = str,
+				Author = Guid.Empty,
+				Created = num,
+				Updated = num,
+				Provider = name,
+				Url = "-"
+			});
+
+			Console.WriteLine("[" + type + "]" + str);
+		}
+    }
 }

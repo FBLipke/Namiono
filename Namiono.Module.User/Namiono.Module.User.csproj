@@ -60,6 +60,7 @@
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Providers\User\template\User_Add_Form.tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

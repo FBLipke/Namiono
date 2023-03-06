@@ -145,7 +145,7 @@ namespace Namiono.Common.Network.Sockets
 				(this, new ClientConnectionClosedEventArgs(Id));
 		}
 
-		public void EndWriteData(IAsyncResult ar)
+		private void EndWriteData(IAsyncResult ar)
 		{
 			if (OutputStream.CanWrite)
 			{

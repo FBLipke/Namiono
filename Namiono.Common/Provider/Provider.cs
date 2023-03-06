@@ -112,7 +112,10 @@ namespace Namiono.Common.Provider
         public static TS InvokeMethod<TS>(object obj, string name, object[] parameters = null)
 			=> AsType<TS>(obj.GetType().GetMethod(name).Invoke(obj, parameters));
 
-        public static Dictionary<Guid, IMember> LoadFromDataBase(
+		public static void InvokeMethod(object obj, string name, object[] parameters = null)
+			=> obj.GetType().GetMethod(name).Invoke(obj, parameters);
+
+		public static Dictionary<Guid, IMember> LoadFromDataBase(
 		  IDatabase db,
 		  string name)
 		{
@@ -136,14 +139,11 @@ namespace Namiono.Common.Provider
 			return dictionary1;
 		}
 
-		public static IEnumerable<IProvider> CanDo(string ability)
-		{
-			var providers = NamionoCommon.Providers;
-			return providers?.Values.Where(p => p.GetType()
+        public static IEnumerable<IProvider> CanDo(string ability)
+			=> NamionoCommon.Providers?.Values.Where(p => p.GetType()
 				.GetInterface("I" + ability.Captitalize(), true) != null && p.Active);
-		}
 
-		public static void SubscribeEvent(object obj, object origin, string name, string method)
+        public static void SubscribeEvent(object obj, object origin, string name, string method)
 		{
 			if (obj == null)
 				return;

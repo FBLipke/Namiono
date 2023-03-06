@@ -59,7 +59,7 @@ namespace Namiono.Common
 
 		public void Write(string path, in byte[] buffer, int start = 0)
 		{
-			using (var fileStream = File.Create(Path.Combine(Root, path)))
+			using (var fileStream = new BufferedStream(File.Create(Path.Combine(Root, path))))
 			{
 				fileStream.Write(buffer, start, buffer.Length);
 				fileStream.Close();
