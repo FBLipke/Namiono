@@ -10,6 +10,7 @@ namespace Namiono.Common.Provider
 		bool VolativeModule { get; set; }
 
 		Dictionary<Guid, IMember> Members { get; set; }
+		ICrypto Crypt { get; set; }
 
 		SqlDatabase Database { get; set; }
 

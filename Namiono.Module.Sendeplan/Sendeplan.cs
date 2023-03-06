@@ -33,12 +33,14 @@ namespace Namiono.Module
 		public bool Active { get; set; } = true;
 
 		public SqlDatabase Database { get; set; }
+        public ICrypto Crypt { get; set; }
 
-		public Sendeplan()
+        public Sendeplan()
 		{
 			Members = new Dictionary<Guid, IMember>();
 			FileSystem = new FileSystem("Providers\\Sendeplan");
 			Database = new SqlDatabase(FileSystem, "Sendeplan.db");
+			Crypt = new MD5();
 		}
 
 		public void Bootstrap() => Database.Bootstrap();
@@ -114,7 +116,7 @@ namespace Namiono.Module
 
 		public void HeartBeat() => Database.HeartBeat();
 
-		public void Install() => Provider.Install(nameof(Sendeplan), Members, Database, FileSystem);
+		public void Install() => Provider.Install(nameof(Sendeplan), Members, Database, FileSystem, Crypt);
 
 		public void Remove(Guid id) => Members.Remove(id);
 

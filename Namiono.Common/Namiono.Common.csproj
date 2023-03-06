@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography\Interfaces\ICrypto.cs" />
     <Compile Include="Network\Events\NetworkManagerRequestHandledEventArgs.cs" />
     <Compile Include="Network\Events\ReceivedDataArgs.HttpContext.cs" />
     <Compile Include="Network\Events\HTTPRequestReceivedEventArgs.cs" />

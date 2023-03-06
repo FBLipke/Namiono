@@ -30,8 +30,9 @@ namespace Namiono.Module
 		public bool Active { get; set; }
 
 		public SqlDatabase Database { get; set; }
+        public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public Seofine() => Members = new Dictionary<Guid, IMember>();
+        public Seofine() => Members = new Dictionary<Guid, IMember>();
 
 		public void Bootstrap()
 		{

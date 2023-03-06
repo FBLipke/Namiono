@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Namiono.Common
 {
-	public static class SHA256
+	public class SHA256 : ICrypto
 	{
-		public static string GetHash(string text, string key)
+		public string GetHash(string text, string key)
 		{
 			if (string.IsNullOrEmpty(text))
 				return string.Empty;

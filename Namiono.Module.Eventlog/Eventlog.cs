@@ -43,8 +43,9 @@ namespace Namiono.Module
 		}
 
 		public bool Active { get; set; } = false;
+        public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public Eventlog()
+        public Eventlog()
 		{
 			CanAdd = false;
 			CanEdit = false;

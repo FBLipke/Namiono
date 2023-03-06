@@ -355,7 +355,8 @@ namespace Namiono.Common.Provider
 		  string name,
 		  Dictionary<Guid, IMember> members,
 		  SqlDatabase db,
-		  FileSystem fs)
+		  FileSystem fs,
+		  ICrypto crypter)
 		{
 			var filename = fs.Combine(fs.Root, "install.xml");
 			if (!fs.Exists(filename.ToLowerInvariant()))
@@ -404,7 +405,7 @@ namespace Namiono.Common.Provider
 								Id = key,
 								Name = memberName,
 								EMail = email,
-								Password = SHA256.GetHash(password, email),
+								Password = crypter.GetHash(password, email),
 								Created = totalSeconds,
 								Updated = totalSeconds,
 								Level = ulong.Parse(s),

@@ -44,8 +44,9 @@ namespace Namiono.Module
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
+        public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public Memorymgr() => Members = new Dictionary<Guid, IMember>();
+        public Memorymgr() => Members = new Dictionary<Guid, IMember>();
 
 		public void Bootstrap()
 		{

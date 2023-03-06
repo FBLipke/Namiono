@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Namiono.Common
 {
-	public static class MD5
+	public class MD5 : ICrypto
 	{
-		public static string GetMD5Hash(string text)
+		public string GetHash(string text, string key = "notNeededforMD5")
 		{
 			if (string.IsNullOrEmpty(text))
 				return string.Empty;

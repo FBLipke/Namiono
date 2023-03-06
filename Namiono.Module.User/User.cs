@@ -25,6 +25,7 @@ namespace Namiono.Module
 			Members = new Dictionary<Guid, IMember>();
 			FileSystem = new FileSystem("Providers\\User");
 			Settings = new ModulSettings("Config\\User\\Config.xml");
+			Crypt = new MD5();
 
 			if (VolativeModule)
 				return;
@@ -103,14 +104,15 @@ namespace Namiono.Module
 		public FileSystem FileSystem { get; set; }
 
 		public bool Active { get; set; }
+        public ICrypto Crypt { get; set; }
 
-		public void Remove(Guid id) => Members.Remove(id);
+        public void Remove(Guid id) => Members.Remove(id);
 
 		public bool Contains(Guid id) => Members.ContainsKey(id);
 
 		public void Bootstrap() => Database.Bootstrap();
 
-		public void Install() => Provider.Install(nameof(User), Members, Database, FileSystem);
+		public void Install() => Provider.Install(nameof(User), Members, Database, FileSystem,Crypt);
 
 		public IMember Get_Member(Guid id) => Members.ContainsKey(id) ? Members[id] : null;
 
@@ -200,7 +202,7 @@ namespace Namiono.Module
 										Design = Settings.DefaultStyle,
 										Description = "",
 										OutPut = string.Empty,
-										Password = MD5.GetMD5Hash(parameter2)
+										Password = Crypt.GetHash(parameter2, string.Empty)
 									};
 
 									Members.Add(member.Id, member);
@@ -262,12 +264,13 @@ namespace Namiono.Module
 			{
 				case "POST":
 					var source = Members.Values.Where(u => !u.Locked && !u.Service);
-					var member2 = source.Where(u => u.Name.ToLowerInvariant() == request.Request.Parameters["username"].ToLowerInvariant() && u.Password == MD5.GetMD5Hash(request.Request.Parameters["userpass"])).FirstOrDefault();
+					var member2 = source.Where(u => u.Name.ToLowerInvariant() == request.Request.Parameters["username"].ToLowerInvariant() && u.Password ==
+						Crypt.GetHash(request.Request.Parameters["userpass"], string.Empty)).FirstOrDefault();
 					if (member2 != null)
 						member1 = member2;
 					else if (request.Request.Parameters["username"].Contains("@") && request.Request.Parameters["username"].Contains("."))
 						member1 = source.Where(u => u.EMail.ToLowerInvariant() == request.Request.Parameters["username"]
-							.ToLowerInvariant() && u.Password == MD5.GetMD5Hash(request.Request.Parameters["userpass"])).FirstOrDefault();
+							.ToLowerInvariant() && u.Password == Crypt.GetHash(request.Request.Parameters["userpass"], string.Empty)).FirstOrDefault();
 					else
 						break;
 					if (member1 != null)

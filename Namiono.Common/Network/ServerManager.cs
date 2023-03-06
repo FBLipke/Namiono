@@ -85,7 +85,7 @@ namespace Namiono.Common.Network
 					server = new NamionoUdpServer(protocolType, guid, mode, port);
 					break;
 				default:
-					return;
+					throw new InvalidOperationException("No valid Server instance!");
 			}
 
 			server.ServerAddedSocket += (sender, e) =>
