@@ -3,6 +3,7 @@ using Namiono.Common;
 using Namiono.Common.Database;
 using Namiono.Common.Network;
 using Namiono.Common.Provider;
+using Namiono.Database;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +31,7 @@ namespace Namiono.Module
 
 		public bool Active { get; set; }
 
-		public SqlDatabase Database { get; set; }
+		public IDatabase Database { get; set; }
         public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Website() => Members = new Dictionary<Guid, IMember>();

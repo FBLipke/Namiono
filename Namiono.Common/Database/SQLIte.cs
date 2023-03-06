@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Namiono.Database;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -7,7 +8,7 @@ using System.IO;
 
 namespace Namiono.Common.Database
 {
-	public class SqlDatabase : IDisposable, IManager
+	public class SqlDatabase : IDisposable, IManager, IDatabase
 	{
 		private readonly SQLiteConnection _sqlConn;
 
@@ -38,7 +39,7 @@ namespace Namiono.Common.Database
 			return num;
 		}
 
-		public Dictionary<int, NameValueCollection> SqlQuery(string sql)
+		public Dictionary<int, NameValueCollection> Query(string sql)
 		{
 			var dictionary = new Dictionary<int, NameValueCollection>();
 			using (var cmd = new SQLiteCommand(sql, _sqlConn))
@@ -64,7 +65,7 @@ namespace Namiono.Common.Database
 			}
 		}
 
-		public bool SqlInsert(string sql)
+		public bool Insert(string sql)
 		{
 			var result = false;
 			using (var cmd = new SQLiteCommand(sql))
@@ -73,7 +74,7 @@ namespace Namiono.Common.Database
 			return result;
 		}
 
-		public string SqlQuery(string sql, string key)
+		public string Query(string sql, string key)
 		{
 			var str = string.Empty;
 			using (var cmd = new SQLiteCommand(sql, _sqlConn))

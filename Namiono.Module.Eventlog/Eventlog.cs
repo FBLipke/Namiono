@@ -8,6 +8,7 @@ using Namiono.Common;
 using Namiono.Common.Database;
 using Namiono.Common.Network;
 using Namiono.Common.Provider;
+using Namiono.Database;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Namiono.Module
 	{
 		public FileSystem Filesystem { get; set; }
 
-		public SqlDatabase Database { get; set; }
+		public IDatabase Database { get; set; }
 
 		public Dictionary<Guid, IMember> Members { get; set; }
 

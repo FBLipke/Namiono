@@ -3,6 +3,7 @@ using Namiono.Common.Database;
 using Namiono.Common.Network;
 using Namiono.Common.Network.HTTP;
 using Namiono.Common.Provider;
+using Namiono.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace Namiono.Module
 			Database = new SqlDatabase(FileSystem, "User.db");
 		}
 
-		public SqlDatabase Database { get; set; }
+		public IDatabase Database { get; set; }
 
 		public void Start()
 		{

@@ -1,5 +1,6 @@
 ﻿using Namiono.Common.Database;
 using Namiono.Common.Network;
+using Namiono.Database;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace Namiono.Common.Provider
 		Dictionary<Guid, IMember> Members { get; set; }
 		ICrypto Crypt { get; set; }
 
-		SqlDatabase Database { get; set; }
+		IDatabase Database { get; set; }
 
 		FileSystem FileSystem { get; set; }
 

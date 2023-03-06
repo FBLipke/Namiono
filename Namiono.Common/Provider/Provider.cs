@@ -5,6 +5,7 @@
 // Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Common.dll
 
 using Namiono.Common.Database;
+using Namiono.Database;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -112,13 +113,13 @@ namespace Namiono.Common.Provider
 			=> AsType<TS>(obj.GetType().GetMethod(name).Invoke(obj, parameters));
 
         public static Dictionary<Guid, IMember> LoadFromDataBase(
-		  SqlDatabase db,
+		  IDatabase db,
 		  string name)
 		{
 			var dictionary1 = new Dictionary<Guid, IMember>();
 			var propertyInfos = typeof(IMember).GetProperties().Where(p => p.GetGetMethod().IsPublic)
 				.Where(p => p.PropertyType.FullName != null && p.PropertyType.FullName.StartsWith("System")).Where(p => !p.PropertyType.FullName.Contains("Collections"));
-			var dictionary2 = db.SqlQuery(string.Format("SELECT {0} FROM {1}", "*", name));
+			var dictionary2 = db.Query(string.Format("SELECT {0} FROM {1}", "*", name));
 			for (var key = 0; key < dictionary2.Count; ++key)
 			{
 				var member = new Member();
@@ -157,7 +158,7 @@ namespace Namiono.Common.Provider
 
 		public static void Insert(
 		  Dictionary<Guid, IMember> members,
-		  SqlDatabase db,
+		  IDatabase db,
 		 string name,
 		  FileSystem fs)
 		{
@@ -257,7 +258,7 @@ namespace Namiono.Common.Provider
 				streamReader.Close();
 			}
 
-			if (db.SqlInsert(end))
+			if (db.Insert(end))
 				File.Delete(path);
 			else
 				NamionoCommon.Log("E", name, "SQL Error : " + end);
@@ -266,7 +267,7 @@ namespace Namiono.Common.Provider
 		public static void Commit(
 		  Dictionary<Guid, IMember> members,
 		  string name,
-		  SqlDatabase db,
+		  IDatabase db,
 		  FileSystem fs)
 		{
 			var path = fs.Combine(fs.Root, "database_update.sql");
@@ -341,7 +342,7 @@ namespace Namiono.Common.Provider
 					streamReader.Close();
 				}
 
-				if (db.SqlInsert(end))
+				if (db.Insert(end))
 				{
 					File.Delete(path);
 					NamionoCommon.Log("I", name, "Commit for Modul '" + name + "' completed...");
@@ -354,7 +355,7 @@ namespace Namiono.Common.Provider
 		public static void Install(
 		  string name,
 		  Dictionary<Guid, IMember> members,
-		  SqlDatabase db,
+		  IDatabase db,
 		  FileSystem fs,
 		  ICrypto crypter)
 		{
@@ -486,7 +487,7 @@ namespace Namiono.Common.Provider
 					streamReader.Close();
 				}
 
-				if (db.SqlInsert(end))
+				if (db.Insert(end))
 					File.Delete(path);
 				
 				if (members.Any())
