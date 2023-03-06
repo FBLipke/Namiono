@@ -41,15 +41,11 @@ namespace Namiono.Common.Provider
 
 		public static bool HasEvent(object obj, string name) => obj.GetType().GetEvent(name) != null;
 
-		public static TY GetPropertyValue<TY>(object member, string propertyName)
-		{
-			if (member == null)
-				throw new NullReferenceException();
+        public static TY GetPropertyValue<TY>(object member, string propertyName)
+			=> AsType<TY>(member.GetType().GetProperties()
+                .Single(pi => pi.Name == propertyName).GetValue(member, null));
 
-			return (TY)Convert.ChangeType(((IEnumerable<PropertyInfo>)member.GetType().GetProperties()).Single(pi => pi.Name == propertyName).GetValue(member, null), typeof(TY));
-		}
-
-		public static void SetPropertyValue<TS>(
+        public static void SetPropertyValue<TS>(
 		  object obj,
 		  string name,
 		  TS value,
@@ -112,12 +108,10 @@ namespace Namiono.Common.Provider
 			}
 		}
 
-		public static TS InvokeMethod<TS>(object obj, string name, object[] parameters = null)
-		{
-			return (TS)Convert.ChangeType(obj.GetType().GetMethod(name).Invoke(obj, parameters), typeof(TS));
-		}
+        public static TS InvokeMethod<TS>(object obj, string name, object[] parameters = null)
+			=> AsType<TS>(obj.GetType().GetMethod(name).Invoke(obj, parameters));
 
-		public static Dictionary<Guid, IMember> LoadFromDataBase(
+        public static Dictionary<Guid, IMember> LoadFromDataBase(
 		  SqlDatabase db,
 		  string name)
 		{
@@ -504,6 +498,11 @@ namespace Namiono.Common.Provider
 					NamionoCommon.Log("I", NamionoCommon.Providers[name].FriendlyName, "Installation completed...");
 				}
 			}
+		}
+
+		public static T AsType<T>(object obj)
+        {
+			return (T)Convert.ChangeType(obj, typeof(T));
 		}
 
 		public delegate void ModuleLoadedEventHandler(object sender, ModuleLoadedEventArgs e);
