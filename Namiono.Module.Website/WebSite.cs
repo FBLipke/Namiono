@@ -48,6 +48,7 @@ namespace Namiono.Module
 
 		public void Close()
 		{
+
 		}
 
 		public bool Contains(Guid id) => false;
@@ -63,7 +64,7 @@ namespace Namiono.Module
 		public void Handle_HTTP_Request(Guid server, Guid socket, Guid client, NamionoHttpContext context)
 		{
 
-			NamionoCommon.NetworkManager.ServerManager.Send(socket, client, socket, new byte[0]);
+			NamionoCommon.NetworkManager.ServerManager.Send(server, client, socket, new byte[0]);
 		}
 
 		public void HeartBeat()
