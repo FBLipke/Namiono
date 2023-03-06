@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Namiono>
+	<Module Name ="User">
+		<Install provider="User">
+			<Entries>
+        <Entry Name="Admin" Created="*" Password="admin123456" EMail ="" Level="255" Provider="User" Description="Created from Installation script." />
+			</Entries>
+		</Install>
+	</Module>
+</Namiono>

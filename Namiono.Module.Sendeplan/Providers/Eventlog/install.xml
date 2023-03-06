@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Namiono>
+	<Module Name ="Eventlog">
+		<Install provider="Eventlog">
+			<Entries>
+				<Entry Name="Installation Complete" Created="*" Level="" Provider="Eventlog" Description="The Installation for Eventlog is done." />
+			</Entries>
+		</Install>
+	</Module>
+</Namiono>

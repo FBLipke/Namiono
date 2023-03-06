@@ -1,0 +1,28 @@
+﻿// Decompiled with JetBrains decompiler
+// Type: Namiono.Common.SHA256
+// Assembly: Namiono.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: CE4FCADF-C52D-4962-B4B8-C6D36FAB8FAE
+// Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Common.dll
+
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace Namiono.Common
+{
+	public static class SHA256
+	{
+		public static string GetHash(string text, string key)
+		{
+			if (string.IsNullOrEmpty(text))
+				return string.Empty;
+
+			byte[] buffer = new byte[0];
+
+			using (HMACSHA256 hmacshA256 = new HMACSHA256(Encoding.ASCII.GetBytes(key.ToCharArray())))
+				buffer = hmacshA256.ComputeHash(buffer);
+
+			return BitConverter.ToString(buffer).Replace("-", string.Empty).ToLower();
+		}
+	}
+}

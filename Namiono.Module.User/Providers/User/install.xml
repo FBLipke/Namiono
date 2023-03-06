@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Namiono>
+	<Module Name="User">
+		<Install provider="User">
+			<Entries>
+				<Entry Name="admin" Created="*" Password="admin123456" EMail ="Info@fblipke.de" Level="255" Provider="User" Description="Created from Installation script." />
+				<Server Mode="HttpMedia" Port="8000" />
+			</Entries>
+		</Install>
+	</Module>
+</Namiono>
