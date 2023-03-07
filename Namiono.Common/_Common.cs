@@ -3,7 +3,6 @@ using Namiono.Common.Provider;
 using Namiono.Common.System;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -62,7 +61,7 @@ namespace Namiono.Common
 			Task.Run(() =>
 			{
 				foreach (var file in new DirectoryInfo(Filesystem.Root)
-					.GetFiles("*.Module.*.dll", SearchOption.TopDirectoryOnly))
+					.GetFiles("Namiono.Module.*.dll", SearchOption.TopDirectoryOnly))
 					Provider.Provider.LoadModule(file.Name.Substring(0, file.Name.LastIndexOf('.')));
 			});
 			NetworkManager = new NetworkManager();
@@ -155,7 +154,7 @@ namespace Namiono.Common
 			else
 				Provider.Provider.InvokeMethod(Provider.Provider.CanDo("Log").First(), "Log",
 					new object[] { type, name, logmessage });
-				
+
 		}
 
 		public void Install()

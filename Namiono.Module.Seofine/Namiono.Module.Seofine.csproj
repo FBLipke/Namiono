@@ -50,13 +50,14 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Namiono.Common">
-      <HintPath>..\Namiono.Common\bin\Debug\Namiono.Common.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Seofine.cs" />
     <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Namiono.Common\Namiono.Common.csproj">
+      <Project>{6E8CBD01-FF4A-4522-812A-750AD7809203}</Project>
+      <Name>Namiono.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

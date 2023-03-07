@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Namiono.Module.Eventlog
-// Assembly: Namiono.Module.Eventlog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: EB206447-7AFD-4668-A541-6AFE81129AE2
-// Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Module.Eventlog.dll
-
-using Namiono.Common;
+﻿using Namiono.Common;
 using Namiono.Common.Database;
 using Namiono.Common.Network;
 using Namiono.Common.Provider;
@@ -45,9 +39,9 @@ namespace Namiono.Module
 		}
 
 		public bool Active { get; set; } = false;
-        public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Eventlog()
+		public Eventlog()
 		{
 			CanAdd = false;
 			CanEdit = false;
@@ -149,8 +143,8 @@ namespace Namiono.Module
 			throw new NotImplementedException();
 		}
 
-        public void Log(string type, string name, string logmessage)
-        {
+		public void Log(string type, string name, string logmessage)
+		{
 			var str = "\t" + DateTime.Now.ToString("dd.MM.yyyy : HH:mm:ss", CultureInfo.InvariantCulture)
 				+ "\tNamiono." + name + ": " + logmessage;
 
@@ -171,5 +165,5 @@ namespace Namiono.Module
 
 			Console.WriteLine("[" + type + "]" + str);
 		}
-    }
+	}
 }

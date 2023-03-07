@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Namiono.Common.Provider.Provider
-// Assembly: Namiono.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: CE4FCADF-C52D-4962-B4B8-C6D36FAB8FAE
-// Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Common.dll
-
-using Namiono.Common.Database;
+﻿using Namiono.Common.Network.Sockets;
 using Namiono.Database;
 using Newtonsoft.Json;
 using System;
@@ -31,9 +25,19 @@ namespace Namiono.Common.Provider
 			if (!File.Exists(path))
 				return;
 
-			var instance = (IProvider)Activator.CreateInstance(Assembly.LoadFile(path).GetType(name));
+			IProvider instance = null;
 
-			ModuleLoaded.DynamicInvoke(null, new ModuleLoadedEventArgs(name, instance));
+			try
+			{
+				instance = (IProvider)Activator.CreateInstance(Assembly.LoadFile(path).GetType(name));
+				ModuleLoaded.DynamicInvoke(null, new ModuleLoadedEventArgs(name, instance));
+			}
+			catch (Exception ex)
+			{
+				NamionoCommon.Log("E", name, ex.Message);
+				instance = null;
+			}
+
 		}
 
 		public static bool HasProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
@@ -42,11 +46,11 @@ namespace Namiono.Common.Provider
 
 		public static bool HasEvent(object obj, string name) => obj.GetType().GetEvent(name) != null;
 
-        public static TY GetPropertyValue<TY>(object member, string propertyName)
+		public static TY GetPropertyValue<TY>(object member, string propertyName)
 			=> AsType<TY>(member.GetType().GetProperties()
-                .Single(pi => pi.Name == propertyName).GetValue(member, null));
+				.Single(pi => pi.Name == propertyName).GetValue(member, null));
 
-        public static void SetPropertyValue<TS>(
+		public static void SetPropertyValue<TS>(
 		  object obj,
 		  string name,
 		  TS value,
@@ -56,26 +60,21 @@ namespace Namiono.Common.Provider
 			if (value == null)
 				throw new ArgumentNullException(nameof(value));
 
-			var propertyInfo = ((IEnumerable<PropertyInfo>)obj.GetType().GetProperties()).Single(pi => pi.Name == name) ?? throw new ArgumentNullException();
+			var propertyInfo = ((IEnumerable<PropertyInfo>)obj.GetType().GetProperties()).Single(pi => pi.Name == name)
+				?? throw new ArgumentNullException();
 
 			if (typeof(TS) == typeof(string))
 			{
 				if (!append)
 				{
-					var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
-					{
-			typeof (string)
-					});
+					var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1] { typeof(string) });
 					if (runtimeMethod != null)
 					{
 						var str = string.Format("{0}", value);
 						if (propertyInfo.PropertyType == typeof(bool))
 							str = str != "0" ? "true" : "false";
 
-						var obj1 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
-						{
-			   str
-						});
+						var obj1 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1] { str });
 						propertyInfo.SetValue(obj, obj1);
 					}
 					else
@@ -89,19 +88,13 @@ namespace Namiono.Common.Provider
 			}
 			else
 			{
-				var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1]
-				{
-		  typeof (string)
-				});
+				var runtimeMethod = propertyInfo.PropertyType.GetRuntimeMethod("Parse", new Type[1] { typeof(string) });
 				if (runtimeMethod != null)
 				{
 					var str = string.Format("{0}", value);
 					if (propertyInfo.PropertyType == typeof(bool))
 						str = str != "0" ? "true" : "false";
-					var obj2 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1]
-					{
-			 str
-					});
+					var obj2 = runtimeMethod.Invoke(propertyInfo.PropertyType, new object[1] { str });
 					propertyInfo.SetValue(obj, obj2);
 				}
 				else
@@ -109,7 +102,7 @@ namespace Namiono.Common.Provider
 			}
 		}
 
-        public static TS InvokeMethod<TS>(object obj, string name, object[] parameters = null)
+		public static TS InvokeMethod<TS>(object obj, string name, object[] parameters = null)
 			=> AsType<TS>(obj.GetType().GetMethod(name).Invoke(obj, parameters));
 
 		public static void InvokeMethod(object obj, string name, object[] parameters = null)
@@ -139,11 +132,11 @@ namespace Namiono.Common.Provider
 			return dictionary1;
 		}
 
-        public static IEnumerable<IProvider> CanDo(string ability)
+		public static IEnumerable<IProvider> CanDo(string ability)
 			=> NamionoCommon.Providers?.Values.Where(p => p.GetType()
 				.GetInterface("I" + ability.Captitalize(), true) != null && p.Active);
 
-        public static void SubscribeEvent(object obj, object origin, string name, string method)
+		public static void SubscribeEvent(object obj, object origin, string name, string method)
 		{
 			if (obj == null)
 				return;
@@ -362,10 +355,6 @@ namespace Namiono.Common.Provider
 			var filename = fs.Combine(fs.Root, "install.xml");
 			if (!fs.Exists(filename.ToLowerInvariant()))
 				NamionoCommon.Log("E", NamionoCommon.Providers[name].FriendlyName, "Installation failed: Script (" + filename + ")not found!");
-			else if (fs.Exists("installed.tag"))
-			{
-				NamionoCommon.Log("I", NamionoCommon.Providers[name].FriendlyName, "Installation already completed...");
-			}
 			else
 			{
 				NamionoCommon.Log("I", NamionoCommon.Providers[name].FriendlyName, "Installer started...");
@@ -373,52 +362,86 @@ namespace Namiono.Common.Provider
 				var xmlDocument = new XmlDocument();
 				xmlDocument.Load(filename);
 
-				var childNodes = xmlDocument.DocumentElement?.SelectSingleNode("Module")?.SelectSingleNode(nameof(Install))?.SelectSingleNode("Entries")?.ChildNodes;
+				var childNodes = xmlDocument.DocumentElement?.SelectSingleNode("Module")?.SelectSingleNode("Install")?.ChildNodes;
 				if (childNodes != null)
 				{
 					for (var i = childNodes.Count - 1; i >= 0; --i)
 					{
-						if (childNodes[i].Name != "Entries")
-							continue;
-
 						var attributes = childNodes[i].Attributes;
-						
-						if (attributes != null)
+
+						switch (childNodes[i].Name)
 						{
-							var email = "me@you.de";
-							var memberName = string.Empty;
+							case "Entries":
+								// Database is created....
+								if (fs.Exists("installed.tag"))
+									continue;
 
-							if (attributes.GetNamedItem("Email") != null)
-								email = attributes["Email"].Value;
+								if (attributes == null || attributes.Count == 0)
+									continue;
 
-							if (attributes.GetNamedItem("Name") != null)
-								memberName = attributes.GetNamedItem("Name").Value;
-							var totalSeconds = DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-							var s = attributes["Level"].Value;
-							var str2 = attributes["Provider"].Value;
-							var str3 = attributes["Description"].Value;
-							var password = attributes["Password"].Value;
-							var key = Guid.NewGuid();
+								var email = "me@you.de";
+								var memberName = string.Empty;
+								var level = 1UL;
+								var provider = string.Empty;
+								var description = string.Empty;
+								var password = string.Empty;
 
-							var member = new Member()
-							{
-								Members = new Dictionary<Guid, IMember>(),
-								Id = key,
-								Name = memberName,
-								EMail = email,
-								Password = crypter.GetHash(password, email),
-								Created = totalSeconds,
-								Updated = totalSeconds,
-								Level = ulong.Parse(s),
-								Provider = str2,
-								Description = str3
-							};
+								if (attributes.GetNamedItem("Email") != null)
+									email = attributes["Email"].Value;
 
-							members.Add(key, member);
+								if (attributes.GetNamedItem("Name") != null)
+									memberName = attributes.GetNamedItem("Name").Value;
+								var totalSeconds = DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+
+								if (attributes.GetNamedItem("Level") != null)
+									level = ulong.Parse(attributes["Level"].Value);
+
+								if (attributes.GetNamedItem("Provider") != null)
+									provider = attributes["Provider"].Value;
+
+								if (attributes.GetNamedItem("Description") != null)
+									description = attributes["Description"].Value;
+
+								if (attributes.GetNamedItem("Password") != null)
+									password = attributes["Password"].Value;
+
+								var key = Guid.NewGuid();
+
+								var member = new Member()
+								{
+									Members = new Dictionary<Guid, IMember>(),
+									Id = key,
+									Name = memberName,
+									EMail = email,
+									Password = crypter.GetHash(password, email),
+									Created = totalSeconds,
+									Updated = totalSeconds,
+									Level = level,
+									Provider = provider,
+									Description = description
+								};
+
+								members.Add(key, member);
+								break;
+							case "Servers":
+								var serverEntries = childNodes[i].SelectNodes("Server");
+
+								foreach (XmlNode server in serverEntries)
+								{
+									var serverType = (ProtoType)Enum.Parse(typeof(ProtoType), server.Attributes.GetNamedItem("Type").Value, true);
+									var serverMode = (ServerMode)Enum.Parse(typeof(ServerMode), server.Attributes.GetNamedItem("Mode").Value, true);
+									var serverPort = ushort.Parse(server.Attributes.GetNamedItem("Port").Value);
+
+									NamionoCommon.NetworkManager.ServerManager.Add(serverType, serverMode, serverPort);
+								}
+
+								break;
+							default:
+								break;
 						}
 					}
 				}
-				
+
 				var path = Path.Combine(fs.Root, "database_create.sql");
 				using (var streamWriter = new StreamWriter(path))
 				{
@@ -426,19 +449,17 @@ namespace Namiono.Common.Provider
 					streamWriter.NewLine = Environment.NewLine;
 					streamWriter.AutoFlush = true;
 					streamWriter.WriteLine("\t'_id'\tINTEGER PRIMARY KEY AUTOINCREMENT,");
-					
+
 					var num = 1;
-					
+
 					var source1 = ((IEnumerable<PropertyInfo>)typeof(IMember).GetProperties()).Where((p => p.GetGetMethod().IsPublic)).Where
 						(p => p.PropertyType.FullName != null && p.PropertyType.FullName.StartsWith("System"))
 							.Where(p => !p.PropertyType.FullName.Contains("Collections"));
-					
+
 					if (!(source1 is PropertyInfo[] propertyInfoArray))
 						propertyInfoArray = source1.ToArray();
-					
-					var source2 = propertyInfoArray;
 
-					foreach (var propertyInfo in source2)
+					foreach (var propertyInfo in propertyInfoArray)
 					{
 						var strArray = propertyInfo.PropertyType.ToString().Split('.');
 						var str4 = strArray[strArray.Length - 1];
@@ -463,9 +484,9 @@ namespace Namiono.Common.Provider
 								str6 = "TEXT";
 								break;
 							default:
-								throw new Exception("Dont know what to write for: " + str5);
+								throw new ArgumentException("Dont know what to write for: " + str5);
 						}
-						if (num != source2.Count())
+						if (num != propertyInfoArray.Count())
 						{
 							streamWriter.WriteLine("\t'" + propertyInfo.Name + "'\t" + str6 + ",");
 							++num;
@@ -476,7 +497,7 @@ namespace Namiono.Common.Provider
 							break;
 						}
 					}
-					
+
 					streamWriter.WriteLine(")");
 					streamWriter.Close();
 				}
@@ -489,10 +510,10 @@ namespace Namiono.Common.Provider
 
 				if (db.Insert(end))
 					File.Delete(path);
-				
+
 				if (members.Any())
 					Insert(members, db, name, fs);
-				
+
 				using (var text = File.CreateText(Path.Combine(fs.Root, "installed.tag")))
 				{
 					text.WriteLine("Installed...");
@@ -503,7 +524,7 @@ namespace Namiono.Common.Provider
 		}
 
 		public static T AsType<T>(object obj)
-        {
+		{
 			return (T)Convert.ChangeType(obj, typeof(T));
 		}
 

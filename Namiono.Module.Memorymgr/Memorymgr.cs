@@ -1,11 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Namiono.Module.Memorymgr
-// Assembly: Namiono.Module.Memorymgr, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: E71C7487-B14F-4DC1-9DD9-A4472484B999
-// Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Module.Memorymgr.dll
-
-using Namiono.Common;
-using Namiono.Common.Database;
+﻿using Namiono.Common;
 using Namiono.Common.Network;
 using Namiono.Common.Provider;
 using Namiono.Database;
@@ -46,9 +39,13 @@ namespace Namiono.Module
 			set;
 		}
 
-        public ICrypto Crypt { get; set; }
+		public ICrypto Crypt { get; set; }
 
-        public Memorymgr() => Members = new Dictionary<Guid, IMember>();
+		public Memorymgr()
+		{
+			Members = new Dictionary<Guid, IMember>();
+			Crypt = new MD5();
+		}
 
 		public void Bootstrap()
 		{

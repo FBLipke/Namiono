@@ -101,7 +101,8 @@
     <Compile Include="Network\Events\NetworkManagerRequestHandledEventArgs.cs" />
     <Compile Include="Network\Events\ReceivedDataArgs.HttpContext.cs" />
     <Compile Include="Network\Events\HTTPRequestReceivedEventArgs.cs" />
-    <Compile Include="Network\HTTP\HTTPContext.cs" />
+    <Compile Include="Network\Protocols\Generic\Packet.cs" />
+    <Compile Include="Network\Protocols\HTTP\HTTPContext.cs" />
     <Compile Include="Network\Events\DataReadFromClientEventArgs.cs" />
     <Compile Include="Network\Sockets\Interfaces\INamionoClient.cs" />
     <Compile Include="Network\Sockets\Interfaces\INamionoServer.cs" />
@@ -113,13 +114,11 @@
     <Compile Include="Provider\IsRuntimeModuleAttribute.cs" />
     <Compile Include="Cryptography\MD5.cs" />
     <Compile Include="Cryptography\SHA256.cs" />
-    <Compile Include="System\Origin.cs" />
-    <Compile Include="System\Remote.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="System\ILogin.cs" />
-    <Compile Include="System\IManager.cs" />
-    <Compile Include="System\IService.cs" />
-    <Compile Include="System\ILog.cs" />
+    <Compile Include="System\Interfaces\ILogin.cs" />
+    <Compile Include="System\Interfaces\IManager.cs" />
+    <Compile Include="System\Interfaces\IService.cs" />
+    <Compile Include="System\Interfaces\ILog.cs" />
     <Compile Include="System\FileSystem.cs" />
     <Compile Include="_Common.cs" />
     <Compile Include="System\Service.cs" />
@@ -135,15 +134,14 @@
     <Compile Include="Network\Events\ClientManagerClosedConnectionArgs.cs" />
     <Compile Include="Network\Events\ClientManagerReceivedDataArgs.cs" />
     <Compile Include="Network\Events\NetworkDataReceivedEventArgs.cs" />
-    <Compile Include="Network\WebSiteManager.cs" />
     <Compile Include="Network\Events\WebSiteManagerRequestHandledEventArgs.cs" />
-    <Compile Include="Network\HTTP\HttpRequest.cs" />
-    <Compile Include="Network\HTTP\HttpProcessor.cs" />
-    <Compile Include="Network\HTTP\HttpResponse.cs" />
+    <Compile Include="Network\Protocols\HTTP\HttpRequest.cs" />
+    <Compile Include="Network\Protocols\HTTP\HttpProcessor.cs" />
+    <Compile Include="Network\Protocols\HTTP\HttpResponse.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\Events\ReceivedDataArgs.cs" />
     <Compile Include="Network\ServerManager.cs" />
-    <Compile Include="Network\HTTP\HttpCookie.cs" />
+    <Compile Include="Network\Protocols\HTTP\HttpCookie.cs" />
     <Compile Include="Network\Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Network\Events\ServerAddedSocketDataArgs.cs" />
     <Compile Include="Network\Events\ServerClosedClientConnectionArgs.cs" />
@@ -163,64 +161,8 @@
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WebSite\admin\styles\default\close.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\admin\styles\default\offline.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\admin\styles\default\online.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\admin\styles\default\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\admin\styles\default\unknown.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\favicon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\images\avatar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\images\back.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\images\disk.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\images\nav-icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\images\pfeil.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\public\styles\default\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\scripts\dropdown.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\scripts\jquery-1.12.4.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebSite\scripts\namiono.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="WebSite\public\styles\default\fonts\Roboto-Medium.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="WebSite\public\styles\default\fonts\RobotoSlab-Regular.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="WebSite\template\site_footer.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

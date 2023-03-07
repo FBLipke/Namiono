@@ -15,8 +15,7 @@ namespace Namiono.Common.Network
 
 		public FileSystem FileSystem
 		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
+			get; set;
 		}
 
 		public ServerManager()
@@ -33,7 +32,7 @@ namespace Namiono.Common.Network
 
 		public void Start()
 		{
-			foreach (KeyValuePair<Guid, INamionoServer> server in Servers)
+			foreach (var server in Servers)
 				server.Value.Start();
 		}
 
@@ -86,8 +85,10 @@ namespace Namiono.Common.Network
 					break;
 				default:
 					throw new InvalidOperationException("No valid Server instance!");
-			}
 
+
+			}
+			NamionoCommon.Log("I", "ServerManager", string.Format("Added server on Port {0}!", port));
 			server.ServerAddedSocket += (sender, e) =>
 			{
 				string.Format("Server '{0}' added Socket '{1}'", e.Server, e.Socket);
@@ -117,8 +118,21 @@ namespace Namiono.Common.Network
 
 			server.ServerReceivedData += (sender, e) =>
 			{
-				ReceivedData.DynamicInvoke(this,
-					new ReceivedDataArgs(e.Server, e.Socket, e.Client, e.Data));
+				switch (e.ServerMode)
+				{
+					case ServerMode.Http:
+					case ServerMode.HttpMedia:
+						using (var data = new MemoryStream(e.Data))
+						{
+							var context = new NamionoHttpContext(HttpProcessor.GetRequest(data, e.Data));
+							context.Request.RemEndpoint = this.Servers[e.Server].Sockets[e.Socket].Clients[e.Client].RemoteEndpoint;
+							ReceivedData.DynamicInvoke(this, new ReceivedDataArgs(e.Server, e.Socket, e.Client, context));
+						}
+
+						break;
+					default:
+						break;
+				}
 			};
 
 			if (!Servers.ContainsKey(guid))
@@ -157,7 +171,7 @@ namespace Namiono.Common.Network
 				namionoServer.HeartBeat();
 		}
 
-		public void Bootstrap() => throw new NotImplementedException();
+		public void Bootstrap() { }
 
 		public delegate void ReceivedDataEventHandler(object sender, ReceivedDataArgs e);
 	}

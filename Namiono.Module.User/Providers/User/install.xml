@@ -4,8 +4,10 @@
 		<Install provider="User">
 			<Entries>
 				<Entry Name="admin" Created="*" Password="admin123456" EMail ="Info@fblipke.de" Level="255" Provider="User" Description="Created from Installation script." />
-				<Server Mode="HttpMedia" Port="8000" />
 			</Entries>
+			<Servers>
+				<Server Type="TCP" Mode="Http" Port="8000" />
+			</Servers>
 		</Install>
 	</Module>
 </Namiono>

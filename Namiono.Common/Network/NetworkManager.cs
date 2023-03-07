@@ -1,6 +1,5 @@
 ﻿using Namiono.Common.Network.Sockets;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -17,10 +16,6 @@ namespace Namiono.Common.Network
 		public event HTTPRequestReceivedEventHandler HTTPRequestReceived;
 
 		public ServerManager ServerManager { get; }
-		/// <summary>
-		/// TODO: Extract Website Manager to a seperate Module
-		/// </summary>
-		public WebSiteManager WebSiteManager { get; }
 
 		public FileSystem FileSystem { get; set; }
 
@@ -60,57 +55,45 @@ namespace Namiono.Common.Network
 					default:
 						return;
 				}
-
 			};
-
-			WebSiteManager = new WebSiteManager();
-			WebSiteManager.WebSiteManagerRequestHandled += (sender, e) =>
-		   {
-			   ServerManager.Servers[e.Server].Send(e.Socket, e.Client, e.Response.Content, e.Response.KeepAlive);
-			   e.Response.Dispose();
-		   };
 		}
 
 		public static void GetIPAddresses(ServerMode mode, ushort port, Action<ServerMode, IPEndPoint> @delegate)
 		{
-			foreach (var networkInterface in ((IEnumerable<NetworkInterface>)NetworkInterface.
-				GetAllNetworkInterfaces()).Where(adap => adap.GetIPProperties().GatewayAddresses.Count != 0))
-			{
+			foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces()
+				.Where(adap => adap.GetIPProperties().GatewayAddresses.Count != 0))
 				foreach (var unicastAddress in networkInterface.GetIPProperties().UnicastAddresses)
 					@delegate(mode, new IPEndPoint(unicastAddress.Address, port));
-			}
 		}
 
 		public void Close()
 		{
 			ServerManager.Close();
-			WebSiteManager.Close();
 		}
 
 		public void Start()
 		{
-			WebSiteManager.Start();
 			ServerManager.Start();
 		}
 
 		public void Stop()
 		{
-			WebSiteManager.Stop();
 			ServerManager.Stop();
 		}
 
 		public void Dispose()
 		{
-			WebSiteManager.Dispose();
 			ServerManager.Dispose();
 		}
 
 		public void HeartBeat()
 		{
-			WebSiteManager.HeartBeat();
 			ServerManager.HeartBeat();
 		}
 
-		public void Bootstrap() => throw new NotImplementedException();
+		public void Bootstrap()
+		{
+			ServerManager.Bootstrap();
+		}
 	}
 }

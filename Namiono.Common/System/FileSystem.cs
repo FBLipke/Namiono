@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Namiono.Common.FileSystem
-// Assembly: Namiono.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: CE4FCADF-C52D-4962-B4B8-C6D36FAB8FAE
-// Assembly location: C:\Users\LipkeGu\Desktop\namiono___\Namiono.Common.dll
-
-using System;
+﻿using System;
 using System.IO;
 
 namespace Namiono.Common

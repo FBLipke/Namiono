@@ -106,15 +106,15 @@ namespace Namiono.Module
 		public FileSystem FileSystem { get; set; }
 
 		public bool Active { get; set; }
-        public ICrypto Crypt { get; set; }
+		public ICrypto Crypt { get; set; }
 
-        public void Remove(Guid id) => Members.Remove(id);
+		public void Remove(Guid id) => Members.Remove(id);
 
 		public bool Contains(Guid id) => Members.ContainsKey(id);
 
 		public void Bootstrap() => Database.Bootstrap();
 
-		public void Install() => Provider.Install(nameof(User), Members, Database, FileSystem,Crypt);
+		public void Install() => Provider.Install(nameof(User), Members, Database, FileSystem, Crypt);
 
 		public IMember Get_Member(Guid id) => Members.ContainsKey(id) ? Members[id] : null;
 
@@ -209,7 +209,7 @@ namespace Namiono.Module
 
 									Members.Add(member.Id, member);
 									Update();
-									stringBuilder.Append(WebSiteManager.Redirect(false, "/", "Die Registrierung ist abgeschlossen!"));
+									stringBuilder.Append("Die Registrierung ist abgeschlossen!");
 									break;
 								}
 								break;
