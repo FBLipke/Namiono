@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Namiono>
+	<Module Name="DHCP">
+		<Install provider="DHCP">
+			<Entries>
+			</Entries>
+			<Servers>
+				<Server Type="UDP" Mode="DHCP" Port="67" />
+				<Server Type="UDP" Mode="BOOTP" Port="4011" />
+			</Servers>
+		</Install>
+	</Module>
+</Namiono>

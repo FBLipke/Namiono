@@ -2,7 +2,23 @@
 
 namespace Namiono.Module.Network.Protocols.DHCP
 {
-	public class DHCPOption
+	public enum BOOTPOPCode : byte
+	{
+		Request = 0x01,
+		Reply = 0x02
+	}
+
+	public enum BOOTPHWType
+	{
+		Ethernet = 0x01
+	}
+
+	public enum BOOTPHWLen
+	{
+		Ethernet = 0x06
+	}
+
+	public class DHCPOption : IDHCPOption
 	{
 		public byte Option { get; private set; }
 
@@ -17,15 +33,15 @@ namespace Namiono.Module.Network.Protocols.DHCP
 			Data = data;
 		}
 
-
-		public byte[] GetBytes(DHCPOption option)
+		public byte[] GetBytes()
 		{
-			var bytes = new byte[(option.Length + 2)];
-			bytes[0] = option.Option;
-			bytes[1] = option.Length;
-			Array.Copy(option.Data, 0, bytes, 2, option.Length);
+			var bytes = new byte[(Length + 2)];
+			bytes[0] = Option;
+			bytes[1] = Length;
+			Array.Copy(Data, 0, bytes, 2, Length);
 
 			return bytes;
 		}
+
 	}
 }

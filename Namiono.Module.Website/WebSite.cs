@@ -21,9 +21,9 @@ namespace Namiono.Module
 
 		public bool CanEdit { get; set; }
 
-		public string FriendlyName { get; set; } = "Icy Relay";
+		public string FriendlyName { get; set; } = "WebSite";
 
-		public string Description { get; set; } = "Stellt einen rudimentären ICY Media Stream bereit.";
+		public string Description { get; set; } = "Stellt eine Webseite bereit.";
 
 		public bool CanAdd { get; set; }
 

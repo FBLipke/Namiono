@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.User", "Nami
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.Website", "Namiono.Module.Website\Namiono.Module.Website.csproj", "{787BD31D-89D0-4CAF-8E79-2F592057DC73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.PXEServer", "Namiono.Module.DHCP\Namiono.Module.PXEServer.csproj", "{818F2C19-D31C-4032-84A9-A03792673646}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.DHCP", "Namiono.Module.DHCP\Namiono.Module.DHCP.csproj", "{818F2C19-D31C-4032-84A9-A03792673646}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,8 +86,8 @@ Global
 		{787BD31D-89D0-4CAF-8E79-2F592057DC73}.Release|x64.Build.0 = Release|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|x64.Build.0 = Debug|Any CPU
+		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|x64.ActiveCfg = Debug|x64
+		{818F2C19-D31C-4032-84A9-A03792673646}.Debug|x64.Build.0 = Debug|x64
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|Any CPU.Build.0 = Release|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|x64.ActiveCfg = Release|Any CPU

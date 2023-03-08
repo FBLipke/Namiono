@@ -24,10 +24,6 @@ namespace Namiono.Common.Network
 
 			// Add the internal Webserver
 			Add(ProtoType.Tcp, ServerMode.Http, 90);
-
-			// Add the default Bootp server
-			Add(ProtoType.Udp, ServerMode.DHCP, 67);
-			Add(ProtoType.Udp, ServerMode.BOOTP, 4011);
 		}
 
 		public void Start()
@@ -126,7 +122,9 @@ namespace Namiono.Common.Network
 						{
 							var context = new NamionoHttpContext(HttpProcessor.GetRequest(data, e.Data));
 							context.Request.RemEndpoint = this.Servers[e.Server].Sockets[e.Socket].Clients[e.Client].RemoteEndpoint;
-							ReceivedData.DynamicInvoke(this, new ReceivedDataArgs(e.Server, e.Socket, e.Client, context));
+							
+							ReceivedData.DynamicInvoke(this, new ReceivedDataArgs(e.Server, e.Socket, e.Client,
+								Servers[e.Server].ProtocolType, Servers[e.Server].ServerMode, context));
 						}
 
 						break;

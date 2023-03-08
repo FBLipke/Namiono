@@ -7,7 +7,7 @@
     <ProjectGuid>{818F2C19-D31C-4032-84A9-A03792673646}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Namiono.Module.DHCP</RootNamespace>
+    <RootNamespace>Namiono.Module</RootNamespace>
     <AssemblyName>Namiono.Module.DHCP</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Namiono.Loader\bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,16 +59,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DHCPService.cs" />
+    <Compile Include="DHCP.cs" />
     <Compile Include="Network\Protocols\DHCP\Defines.cs" />
+    <Compile Include="Network\Protocols\DHCP\Interfaces\IDHCPOption.cs" />
     <Compile Include="Network\Protocols\DHCP\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Network\Protocols\DHCP\BSDP\" />
-    <Folder Include="Network\Protocols\DHCP\Interfaces\" />
-    <Folder Include="Network\Protocols\DHCP\RBCP\" />
-    <Folder Include="Network\Protocols\DHCP\WDS\" />
+    <Content Include="Providers\DHCP\install.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Namiono.Common\Namiono.Common.csproj">

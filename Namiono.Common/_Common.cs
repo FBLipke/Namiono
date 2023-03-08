@@ -44,6 +44,7 @@ namespace Namiono.Common
 			}
 			_heartBeatThread = new Thread(new ThreadStart(HeartBeat));
 			Providers = new Dictionary<string, IProvider>();
+			NetworkManager = new NetworkManager();
 			Provider.Provider.ModuleLoaded += (sender, e) =>
 			{
 				Providers.Add(e.Name, e.Module);
@@ -64,7 +65,7 @@ namespace Namiono.Common
 					.GetFiles("Namiono.Module.*.dll", SearchOption.TopDirectoryOnly))
 					Provider.Provider.LoadModule(file.Name.Substring(0, file.Name.LastIndexOf('.')));
 			});
-			NetworkManager = new NetworkManager();
+
 		}
 
 		public void Start()
