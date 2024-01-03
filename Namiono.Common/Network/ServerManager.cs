@@ -21,9 +21,6 @@ namespace Namiono.Common.Network
 		public ServerManager()
 		{
 			Servers = new Dictionary<Guid, INamionoServer>();
-
-			// Add the internal Webserver
-			Add(ProtoType.Tcp, ServerMode.Http, 90);
 		}
 
 		public void Start()

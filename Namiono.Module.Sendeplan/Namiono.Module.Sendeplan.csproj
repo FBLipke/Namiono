@@ -7,10 +7,11 @@
     <ProjectGuid>{2DD70127-530F-4987-B079-025951166F2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Namiono.Module.Sendeplan</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>Namiono.Module</RootNamespace>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,9 +51,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Namiono.Common">
-      <HintPath>..\Namiono.Loader\bin\x64\Debug\Namiono.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +61,12 @@
     <Content Include="Providers\Sendeplan\install.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Namiono.Common\Namiono.Common.csproj">
+      <Project>{6e8cbd01-ff4a-4522-812a-750ad7809203}</Project>
+      <Name>Namiono.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

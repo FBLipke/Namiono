@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Loader", "Namiono.Loader\Namiono.Loader.csproj", "{66655101-BF9F-4C0D-BB0D-D837DC09E5A8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -27,6 +27,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.Website", "Namiono.Module.Website\Namiono.Module.Website.csproj", "{787BD31D-89D0-4CAF-8E79-2F592057DC73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.DHCP", "Namiono.Module.DHCP\Namiono.Module.DHCP.csproj", "{818F2C19-D31C-4032-84A9-A03792673646}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.IcyRelay", "Namiono.Module.IcyRelay\Namiono.Module.IcyRelay.csproj", "{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.Sendeplan", "Namiono.Module.Sendeplan\Namiono.Module.Sendeplan.csproj", "{2DD70127-530F-4987-B079-025951166F2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Namiono.Module.Seofine", "Namiono.Module.Seofine\Namiono.Module.Seofine.csproj", "{3FB24058-694A-46FA-A5F3-FDAFE1248527}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +98,30 @@ Global
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|Any CPU.Build.0 = Release|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|x64.ActiveCfg = Release|Any CPU
 		{818F2C19-D31C-4032-84A9-A03792673646}.Release|x64.Build.0 = Release|Any CPU
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Debug|x64.ActiveCfg = Debug|x64
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Debug|x64.Build.0 = Debug|x64
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Release|x64.ActiveCfg = Release|x64
+		{B6F5AB24-D554-4E3F-8CC9-59E25AAA0DA9}.Release|x64.Build.0 = Release|x64
+		{2DD70127-530F-4987-B079-025951166F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD70127-530F-4987-B079-025951166F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD70127-530F-4987-B079-025951166F2B}.Debug|x64.ActiveCfg = Debug|x64
+		{2DD70127-530F-4987-B079-025951166F2B}.Debug|x64.Build.0 = Debug|x64
+		{2DD70127-530F-4987-B079-025951166F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD70127-530F-4987-B079-025951166F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD70127-530F-4987-B079-025951166F2B}.Release|x64.ActiveCfg = Release|x64
+		{2DD70127-530F-4987-B079-025951166F2B}.Release|x64.Build.0 = Release|x64
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Debug|x64.ActiveCfg = Debug|x64
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Debug|x64.Build.0 = Debug|x64
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Release|x64.ActiveCfg = Release|x64
+		{3FB24058-694A-46FA-A5F3-FDAFE1248527}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

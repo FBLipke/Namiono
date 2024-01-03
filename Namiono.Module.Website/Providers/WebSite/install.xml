@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Namiono>
+	<Module Name="WebSite">
+		<Install provider="WebSite">
+			<Entries>
+			</Entries>
+			<Servers>
+				<Server Type="TCP" Mode="HTTP" Port="80" />
+				<Server Type="TCP" Mode="HTTPS" Port="443" />
+			</Servers>
+		</Install>
+	</Module>
+</Namiono>

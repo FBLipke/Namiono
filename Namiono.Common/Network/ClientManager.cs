@@ -18,12 +18,13 @@ namespace Namiono.Common.Network
 		public ClientManager()
 		{
 			Clients = new Dictionary<Guid, INamionoClient>();
-			HttpRequest httpRequest = new HttpRequest()
+			var httpRequest = new HttpRequest()
 			{
 				Method = "POST",
 				Path = "/api",
 				Version = "HTTP/1.1"
 			};
+
 			httpRequest.Headers.Add("User-Agent", "Mozilla/5.0");
 			httpRequest.Headers.Add("Accept", "*/*");
 			httpRequest.Headers.Add("Content-Encoding", "application/x-www-form-urlencoded; charset=utf-8");

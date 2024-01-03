@@ -25,11 +25,7 @@ namespace Namiono.Module
 
 		public string Description { get; set; } = "Gibt unbenutzten Speicher, welcher von Namiono nicht mehr gebraucht wird, wieder frei";
 
-		public FileSystem FileSystem
-		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
-		}
+		public FileSystem FileSystem { get; set; }
 
 		public bool Active { get; set; }
 
@@ -63,7 +59,7 @@ namespace Namiono.Module
 			Members = null;
 		}
 
-		public IMember Get_Member(Guid id) => (IMember)null;
+		public IMember Get_Member(Guid id) => null;
 
 		public void HeartBeat() => GC.Collect();
 
@@ -76,7 +72,7 @@ namespace Namiono.Module
 		{
 		}
 
-		public IMember Request(Guid id) => (IMember)null;
+		public IMember Request(Guid id) => null;
 
 		public void Start()
 		{

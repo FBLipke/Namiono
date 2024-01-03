@@ -32,14 +32,11 @@ namespace Namiono.Module
 
 		public bool IsPublicModule { get; set; }
 
-		public FileSystem FileSystem
-		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
-		}
+		public FileSystem FileSystem { get; set; }
 
 		public bool Active { get; set; } = false;
-		public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public ICrypto Crypt { get; set; }
 
 		public Eventlog()
 		{
@@ -48,8 +45,10 @@ namespace Namiono.Module
 			CanRemove = false;
 			Members = new Dictionary<Guid, IMember>();
 			Filesystem = new FileSystem("Providers\\Eventlog");
+
 			if (VolativeModule)
 				return;
+			
 			Database = new SqlDatabase(Filesystem, "Eventlog.db");
 		}
 
@@ -57,6 +56,7 @@ namespace Namiono.Module
 		{
 			if (VolativeModule)
 				return;
+
 			Database?.Bootstrap();
 		}
 
@@ -64,6 +64,7 @@ namespace Namiono.Module
 		{
 			if (VolativeModule)
 				return;
+
 			Database.Close();
 		}
 
@@ -76,19 +77,19 @@ namespace Namiono.Module
 				Database.Dispose();
 				Database = null;
 			}
+
 			if (Members != null)
 			{
 				Members.Clear();
 				Members = null;
 			}
+			
 			Filesystem = null;
 		}
 
 		public string Handle_Get_Request(NamionoHttpContext request) => JsonConvert.SerializeObject(Members.Values);
 
-		public void Install()
-		{
-		}
+		public void Install() {	}
 
 		public IMember Get_Member(Guid id) => Members.ContainsKey(id) ? Members[id] : null;
 
@@ -96,6 +97,7 @@ namespace Namiono.Module
 		{
 			if (VolativeModule)
 				return;
+
 			Database?.HeartBeat();
 			Update();
 		}
@@ -120,27 +122,28 @@ namespace Namiono.Module
 		{
 			if (!Active)
 				return;
+
 			Provider.Commit(Members, FriendlyName, Database, Filesystem);
 		}
 
 		public string Handle_Add_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Edit_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Remove_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Info_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public void Log(string type, string name, string logmessage)

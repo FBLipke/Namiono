@@ -31,7 +31,8 @@ namespace Namiono.Module
 		public bool Active { get; set; }
 
 		public IDatabase Database { get; set; }
-        public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
+		public ICrypto Crypt { get; set; }
 
         public IcyRelay() => Members = new Dictionary<Guid, IMember>();
 
@@ -62,7 +63,7 @@ namespace Namiono.Module
 			Members = null;
 		}
 
-		public IMember Get_Member(Guid id) => (IMember)null;
+		public IMember Get_Member(Guid id) => null;
 
 		public void HeartBeat()
 		{
@@ -76,7 +77,7 @@ namespace Namiono.Module
 		{
 		}
 
-		public IMember Request(Guid id) => (IMember)null;
+		public IMember Request(Guid id) => null;
 
 		public void Start() => HeartBeat();
 
@@ -84,27 +85,27 @@ namespace Namiono.Module
 
 		public string Handle_Get_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Add_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Edit_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Remove_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 
 		public string Handle_Info_Request(NamionoHttpContext context)
 		{
-			throw new NotImplementedException();
+			return string.Empty;
 		}
 	}
 }

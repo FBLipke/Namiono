@@ -52,7 +52,7 @@ namespace Namiono.Common.Provider
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            var propertyInfo = ((IEnumerable<PropertyInfo>)obj.GetType().GetProperties()).Single(pi => pi.Name == name)
+            var propertyInfo = obj.GetType().GetProperties().Single(pi => pi.Name == name)
                 ?? throw new ArgumentNullException();
 
             if (typeof(TS) == typeof(string))
@@ -164,6 +164,7 @@ namespace Namiono.Common.Provider
                         var num = 1;
                         var output = new StringBuilder("VALUES (");
                         var str1 = string.Format("INSERT INTO " + name + " (");
+
                         foreach (var propertyInfo in propertyInfos)
                         {
                             var strArray = propertyInfo.PropertyType.ToString().Split('.');
@@ -346,7 +347,7 @@ namespace Namiono.Common.Provider
         {
             var filename = fs.Combine(fs.Root, "install.xml");
             if (!fs.Exists(filename.ToLowerInvariant()))
-                NamionoCommon.Log("E", NamionoCommon.Providers[name].FriendlyName, "Installation failed: Script (" + filename + ")not found!");
+                NamionoCommon.Log("E", NamionoCommon.Providers[name].FriendlyName, "Installation failed: Script (" + filename + ") not found!");
             else
             {
                 NamionoCommon.Log("I", NamionoCommon.Providers[name].FriendlyName, "Installer started...");
@@ -450,7 +451,7 @@ namespace Namiono.Common.Provider
 
                     var num = 1;
 
-                    var source1 = ((IEnumerable<PropertyInfo>)typeof(IMember).GetProperties()).Where((p => p.GetGetMethod().IsPublic)).Where
+                    var source1 = typeof(IMember).GetProperties().Where((p => p.GetGetMethod().IsPublic)).Where
                         (p => p.PropertyType.FullName != null && p.PropertyType.FullName.StartsWith("System"))
                             .Where(p => !p.PropertyType.FullName.Contains("Collections"));
 

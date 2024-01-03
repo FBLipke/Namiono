@@ -25,6 +25,7 @@ namespace Namiono.Common.System
 		public void Bootstrap()
 		{
 			Console.WriteLine("[I] Init Service: {0}", Name);
+
 			if (!Enabled)
 			{
 				Console.WriteLine("[I] {0} is Disabled!:", Name);
@@ -67,17 +68,22 @@ namespace Namiono.Common.System
 				process.Kill();
 				Thread.Sleep(1);
 			}
+
 			NamionoCommon.Log("I", Name, "Starting Service: (with Arguments: {Arguments})");
+			
 			IsRunning = prc.Start();
+			
 			if (IsRunning)
 				NamionoCommon.Log("I", Name, "Up and running!");
 		}
 
 		public void Stop()
 		{
-			Console.WriteLine("[I] Closing Process: {0}", Name);
+			NamionoCommon.Log("I", Name, "Stopping Service...");
+
 			if (!IsRunning)
 				return;
+
 			prc.Kill();
 		}
 
@@ -85,7 +91,7 @@ namespace Namiono.Common.System
 		{
 			if (IsRunning)
 				return;
-			Console.WriteLine("Status: Service \"{0}\" is not running (anymore)!", Name);
+
 			Stop();
 		}
 

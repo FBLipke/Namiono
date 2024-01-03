@@ -7,10 +7,11 @@
     <ProjectGuid>{ECE30FA1-D787-4D7E-9FFD-2F78B3F03FB8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Namiono.Module.Memorymgr</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>Namiono.Module</RootNamespace>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,6 +59,9 @@
       <Project>{6e8cbd01-ff4a-4522-812a-750ad7809203}</Project>
       <Name>Namiono.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

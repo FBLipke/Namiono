@@ -30,6 +30,7 @@ namespace Namiono.Module
 		public bool Active { get; set; }
 
 		public IDatabase Database { get; set; }
+
 		public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 		public Seofine() => Members = new Dictionary<Guid, IMember>();
@@ -50,22 +51,18 @@ namespace Namiono.Module
 			Members = null;
 		}
 
-		public IMember Get_Member(Guid id) => (IMember)null;
+		public IMember Get_Member(Guid id) => null;
 
 		public void HeartBeat()
 		{
 		}
 
 		[IsRuntimeModule]
-		public void Install()
-		{
-		}
+		public void Install() { }
 
-		public void Remove(Guid id)
-		{
-		}
+		public void Remove(Guid id)	{}
 
-		public IMember Request(Guid id) => (IMember)null;
+		public IMember Request(Guid id) => null;
 
 		public void Start() => HeartBeat();
 

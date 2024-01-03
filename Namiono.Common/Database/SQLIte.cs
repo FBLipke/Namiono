@@ -112,6 +112,7 @@ namespace Namiono.Common.Database
 		{
 			if (_sqlConn.State != ConnectionState.Closed)
 				return;
+
 			_sqlConn.Open();
 		}
 

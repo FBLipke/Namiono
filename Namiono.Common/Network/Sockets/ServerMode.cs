@@ -5,10 +5,12 @@ namespace Namiono.Common.Network.Sockets
 	public enum ServerMode
 	{
 		Http,
+		Https,
 		HttpMedia,
 		DHCP,
 		TFTP,
-		BOOTP
+		BOOTP,
+		HueStream
 
 	}
 

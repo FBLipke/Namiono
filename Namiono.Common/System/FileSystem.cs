@@ -27,7 +27,8 @@ namespace Namiono.Common
 
 		public byte[] Read(string path)
 		{
-			byte[] array;
+			byte[] array = new byte[0];
+
 			using (var fileStream = new BufferedStream(File.Open(Resolve(path), FileMode.Open, FileAccess.Read, FileShare.Read)))
 			{
 				array = new byte[fileStream.Length];
@@ -38,6 +39,7 @@ namespace Namiono.Common
 
 				fileStream.Close();
 			}
+
 			return array;
 		}
 

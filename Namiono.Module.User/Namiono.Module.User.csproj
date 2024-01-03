@@ -7,10 +7,11 @@
     <ProjectGuid>{9FB6A657-F3DE-4B8C-95AC-70255E204412}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Namiono.Module.User</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>Namiono.Module</RootNamespace>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

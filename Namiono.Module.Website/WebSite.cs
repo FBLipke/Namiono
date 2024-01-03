@@ -17,7 +17,7 @@ namespace Namiono.Module
 		public static SiteSettings WebSiteSettings { get; set; }
 		public Dictionary<Guid, IMember> Members { get; set; }
 
-		public bool VolativeModule { get; set; } = true;
+		public bool VolativeModule { get; set; } = false;
 
 		public bool CanEdit { get; set; }
 
@@ -36,7 +36,7 @@ namespace Namiono.Module
 		public bool Active { get; set; }
 
 		public IDatabase Database { get; set; }
-		public ICrypto Crypt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public ICrypto Crypt { get; set; }
 
 		public Website()
 		{
@@ -46,10 +46,6 @@ namespace Namiono.Module
 		}
 		public void Bootstrap()
 		{
-			NamionoCommon.NetworkManager.ServerManager
-				.Add(Common.Network.Sockets.ProtoType.Tcp,
-				Common.Network.Sockets.ServerMode.Http, 90);
-
 			NamionoCommon.NetworkManager.HTTPRequestReceived += (sender, e) =>
 			{
 				Handle_HTTP_Request(e.Server, e.Socket, e.Client, e.Context);
@@ -71,7 +67,7 @@ namespace Namiono.Module
 			Members = null;
 		}
 
-		public IMember Get_Member(Guid id) => (IMember)null;
+		public IMember Get_Member(Guid id) => null;
 
 		private string Build_Login_Form()
 		{
@@ -356,16 +352,13 @@ namespace Namiono.Module
 		public void HeartBeat()
 		{
 		}
-
-		public void Install()
-		{
-		}
+		public void Install() => Provider.Install(nameof(Website), Members, Database, FileSystem, Crypt);
 
 		public void Remove(Guid id)
 		{
 		}
 
-		public IMember Request(Guid id) => (IMember)null;
+		public IMember Request(Guid id) => null;
 
 		public void Start() => HeartBeat();
 
